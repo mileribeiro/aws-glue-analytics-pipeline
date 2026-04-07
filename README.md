@@ -3,18 +3,22 @@ Este projeto demonstra a construção de um pipeline de dados na AWS utilizando 
 
 O objetivo é implementar um fluxo de ETL capaz de ingerir dados brutos, transformá-los e disponibilizá-los para consultas analíticas.
 
+---
+
 # Arquitetura
 
 A arquitetura do pipeline utiliza diferentes serviços da AWS para ingestão, processamento e consulta dos dados.
 
 ### Principais componentes utilizados:
 
-**Amazon S3** → armazenamento dos dados no Data Lake
-**AWS Glue Crawler** → descoberta automática de esquemas
-**AWS Glue Data Catalog** → gerenciamento de metadados
-**AWS Glue ETL Jobs** → transformação de dados utilizando PySpark
-**AWS Glue Data Quality** → validação da qualidade dos dados
-**Amazon Athena** → consultas analíticas utilizando SQL diretamente no Data Lake
+- **Amazon S3** → armazenamento dos dados no Data Lake
+- **AWS Glue Crawler** → descoberta automática de esquemas
+- **AWS Glue Data Catalog** → gerenciamento de metadados
+- **AWS Glue ETL Jobs** → transformação de dados utilizando PySpark
+- **AWS Glue Data Quality** → validação da qualidade dos dados
+- **Amazon Athena** → consultas analíticas utilizando SQL diretamente no Data Lake
+  
+---
 
 # Arquitetura em Camadas do Data Lake
 
@@ -29,10 +33,11 @@ Armazena os dados brutos exatamente como foram recebidos das fontes de origem.
 Contém os dados tratados e estruturados, após aplicação das transformações necessárias para análise.
 
 Esse modelo permite:
-
-melhor organização dos dados
-maior governança
-melhor desempenho em consultas analíticas
+- melhor organização dos dados
+- maior governança
+- melhor desempenho em consultas analíticas
+  
+---
 
 # Conjunto de Dados
 
@@ -40,9 +45,11 @@ O pipeline processa dados relacionados a vendas, estoque e redes sociais.
 
 Arquivos utilizados no processo de ingestão:
 
-vendas_zoop_bronze.parquet
-estoques_zoop_bronze.parquet
-redes_sociais_zoop_bronze.parquet
+- vendas_zoop_bronze.parquet
+- estoques_zoop_bronze.parquet
+- redes_sociais_zoop_bronze.parquet
+
+---
 
 # Pipeline de ETL
 
@@ -56,12 +63,12 @@ O pipeline de processamento segue as seguintes etapas:
 6. Consulta dos dados utilizando Amazon Athena
 
 # Stack Tecnológica
-Amazon S3
-AWS Glue
-AWS Glue Data Catalog
-AWS Glue Data Quality
-AWS Glue ETL (Glue Studio)
-Amazon Athena
-Python
-Apache Spark
-SQL
+- Amazon S3
+- AWS Glue
+- AWS Glue Data Catalog
+- AWS Glue Data Quality
+- AWS Glue ETL (Glue Studio)
+- Amazon Athena
+- Python
+- Apache Spark
+- SQL
