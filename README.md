@@ -9,6 +9,8 @@ O objetivo é implementar um fluxo de ETL capaz de ingerir dados brutos, transfo
 
 A arquitetura do pipeline utiliza diferentes serviços da AWS para ingestão, processamento e consulta dos dados.
 
+![](Zoop_Pipeline.png)
+
 ### Principais componentes utilizados:
 
 - **Amazon S3** → armazenamento dos dados no Data Lake
