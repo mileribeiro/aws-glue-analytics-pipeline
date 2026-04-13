@@ -1,0 +1,139 @@
+{
+  "Comment": "A description of my state machine",
+  "StartAt": "tratar vendas para silver",
+  "States": {
+    "tratar vendas para silver": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "tratar vendas para silver"
+      },
+      "Next": "tratar estoque para silver",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "Comment": "Lidar com erro de execução do Job",
+          "Next": "Converter saída de texto para JSON"
+        }
+      ]
+    },
+    "Converter saída de texto para JSON": {
+      "Type": "Pass",
+      "Next": "Enviar email FALHA",
+      "Parameters": {
+        "Cause.$": "States.StringToJson($.Cause)"
+      }
+    },
+    "Enviar email FALHA": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "arn:aws:sns:us-east-1:577638366893:enviar-email",
+        "Message": {
+          "JobName.$": "$.Cause.JobName",
+          "JobRunState.$": "$.Cause.JobRunState"
+        }
+      },
+      "End": true
+    },
+    "tratar estoque para silver": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "tratar estoque para silver"
+      },
+      "Next": "tratar redes sociais para silver",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "Comment": "Lidar com erro de execução do Job",
+          "Next": "Converter saída de texto para JSON"
+        }
+      ]
+    },
+    "tratar redes sociais para silver": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "tratar redes sociais para silver"
+      },
+      "Next": "top 10 produtos por regiao",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "Comment": "Lidar com erro de execução do Job",
+          "Next": "Converter saída de texto para JSON"
+        }
+      ]
+    },
+    "top 10 produtos por regiao": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "top 10 produtos por regiao"
+      },
+      "Next": "top 10 produtos estoque restante",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "Comment": "Lidar com erro de execução do Job",
+          "Next": "Converter saída de texto para JSON"
+        }
+      ]
+    },
+    "top 10 produtos estoque restante": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "top 10 produtos estoque restante"
+      },
+      "Next": "impacto avaliacoes vendas",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "Comment": "Lidar com erro de execução do Job",
+          "Next": "Converter saída de texto para JSON"
+        }
+      ]
+    },
+    "impacto avaliacoes vendas": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "impacto avaliacoes vendas"
+      },
+      "Next": "Enviar email SUCESSO",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "Comment": "Lidar com erro de execução do Job",
+          "Next": "Converter saída de texto para JSON"
+        }
+      ]
+    },
+    "Enviar email SUCESSO": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "arn:aws:sns:us-east-1:577638366893:enviar-email",
+        "Message": {
+          "JobName.$": "$.JobName",
+          "JobRunState.$": "$.JobRunState"
+        }
+      },
+      "End": true
+    }
+  }
+}
